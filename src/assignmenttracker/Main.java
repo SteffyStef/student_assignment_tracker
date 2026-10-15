@@ -1,8 +1,11 @@
 package assignmenttracker;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Student Assignent Tracker");
+        ArrayList<Assignment> assignments = new ArrayList<>();
+
 
         Assignment assignment1 = new Assignment(
                 "CS399",
@@ -10,16 +13,28 @@ public class Main {
                 "October 10",
                 "High"
         );
+        assignments.add(assignment1);
 
-        System.out.println(assignment1.getCourseName());
-        System.out.println(assignment1.getAssignmentName());
-        System.out.println(assignment1.getDueDate());
-        System.out.println(assignment1.getPriority());
-        System.out.println(assignment1.isCompleted());
+        Assignment assignment2 = new Assignment(
+                "CS301",
+                "Java Skills Demo",
+                "October 20",
+                "Medium"
+        );
+
+        assignments.add(assignment2);
 
         assignment1.markCompleted();
 
-        System.out.println("After marking complete:");
-        System.out.println(assignment1.isCompleted());
+        for (Assignment assignment : assignments) {
+            System.out.println(assignment.getCourseName());
+            System.out.println(assignment.getAssignmentName());
+            System.out.println(assignment.getDueDate());
+            System.out.println(assignment.getPriority());
+            System.out.println(assignment.isCompleted());
+            System.out.println("--------------------");
+        }
+
+
     }
 }
