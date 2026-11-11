@@ -7,44 +7,16 @@ public class Main {
 
             System.out.println("Student Assignment Tracker");
 
-            ArrayList<Assignment> assignments = new ArrayList<>();
+        ArrayList<Assignment> assignments = AssignmentFileManager.loadAssignments();
 
             Scanner scanner = new Scanner(System.in);
 
-        Assignment assignment1 = new Assignment(
-                "CS399",
-                "Project Plan",
-                "October 10",
-                "High"
-        );
-        assignments.add(assignment1);
 
-        Assignment assignment2 = new Assignment(
-                "CS301",
-                "Java Skills Demo",
-                "October 20",
-                "Medium"
-        );
-
-        assignments.add(assignment2);
-
-        assignment1.markCompleted();
 
 
         int choice = 0;
 
         while (choice != 4) {
-
-
-
-            for (Assignment assignment : assignments) {
-                System.out.println(assignment.getCourseName());
-                System.out.println(assignment.getAssignmentName());
-                System.out.println(assignment.getDueDate());
-                System.out.println(assignment.getPriority());
-                System.out.println(assignment.isCompleted());
-                System.out.println("--------------------");
-            }
 
             System.out.println("\n===== Student Assignment Tracker =====");
             System.out.println("1. Add Assignment");
@@ -53,8 +25,14 @@ public class Main {
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
 
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Clear the leftover newline
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Clear the leftover newline
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // Remove the invalid input
+                continue;
+            }
             switch (choice) {
                 case 1:
                     System.out.println("You selected Add Assignment");
@@ -81,7 +59,9 @@ public class Main {
 
 
                 assignments.add(newAssignment);
+                    AssignmentFileManager.saveAssignments(assignments);
                     break;
+
 
                 case 2:
                     System.out.println("Your Assignments:");
@@ -105,10 +85,25 @@ public class Main {
                                 assignments.get(i).getAssignmentName());
                     }
                     System.out.print("Enter assignment number: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid input. Please enter a number.");
+                        scanner.nextLine();
+                        break;
+                    }
+
                     int assignmentNumber = scanner.nextInt();
+                    scanner.nextLine();
+                    if (assignmentNumber >= 1 && assignmentNumber <= assignments.size()) {
+                        assignments.get(assignmentNumber - 1).markCompleted();
+                        AssignmentFileManager.saveAssignments(assignments);
+                        System.out.println("Assignment marked complete!");
+                    } else {
+                        System.out.println("Invalid assignment number.");
+                    }
                     break;
 
                 case 4:
+                    AssignmentFileManager.saveAssignments(assignments);
                     System.out.println("Goodbye!");
                     break;
 
